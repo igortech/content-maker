@@ -50,6 +50,28 @@ export interface Post {
   status: 'draft' | 'published';
 }
 
+export interface ContentPlanItem {
+  id: string;
+  title: string;
+  description: string;
+  channel: string;
+  date: string;
+  status: 'planned' | 'in-progress' | 'completed';
+  priority: 'low' | 'medium' | 'high';
+}
+
+export interface TrendsData {
+  trends: Array<{
+    title: string;
+    description: string;
+    source: string;
+    relevance: number;
+    date: string;
+  }>;
+  lastUpdated: string;
+  niche: string;
+}
+
 interface AppState {
   activeTab: string;
   setActiveTab: (tab: string) => void;
@@ -67,10 +89,10 @@ interface AppState {
   setClarification: (clarification: string) => void;
   isSetupComplete: boolean;
   setSetupComplete: (complete: boolean) => void;
-  contentPlan: any[];
-  setContentPlan: (plan: any[]) => void;
-  trendsData: any | null;
-  setTrendsData: (trends: any | null) => void;
+  contentPlan: ContentPlanItem[];
+  setContentPlan: (plan: ContentPlanItem[]) => void;
+  trendsData: TrendsData | null;
+  setTrendsData: (trends: TrendsData | null) => void;
   podcasts: Podcast[];
   setPodcasts: (podcasts: Podcast[]) => void;
   addPodcast: (podcast: Podcast) => void;
