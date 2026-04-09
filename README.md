@@ -2,19 +2,61 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# AI Контент Мейкер
 
-This contains everything you need to run your app locally.
+Приложение для автоматизированного создания контента с помощью AI. Генерирует посты, подкасты и видео-аватары на основе трендов и контент-плана.
 
-View your app in AI Studio: https://ai.studio/apps/67b4ed00-3344-4bda-99a6-a4fc86c31993
+## Возможности
 
-## Run Locally
+- 📊 **Тренд-радар** — отслеживание актуальных трендов по RSS-лентам
+- 📅 **Контент-план** — AI-генерация плана публикаций
+- 📝 **Посты** — автоматическое создание постов для разных платформ
+- 🎙️ **Видео-подкасты** — генерация сценариев, озвучка и видео с слайдами
+- 🎬 **Видео-аватары** — создание видео с виртуальными ведущими (D-id)
 
-**Prerequisites:**  Node.js
+## Запуск локально
 
+**Требования:** Node.js 18+
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 1. Установка зависимостей
+
+```bash
+npm install
+```
+
+### 2. Настройка окружения
+
+Скопируйте `.env.example` в `.env.local` и заполните необходимые API ключи:
+
+```bash
+cp .env.example .env.local
+```
+
+**Обязательные переменные:**
+- `GEMINI_API_KEY` — ключ API Gemini от Google AI Studio
+- `APP_URL` — URL приложения (для production)
+
+**Опциональные переменные:**
+- `SHOTSTACK_KEY` — для генерации видео
+- `SHOTSTACK_ENV` — окружение Shotstack (stage/v1)
+
+### 3. Запуск приложения
+
+```bash
+npm run dev
+```
+
+Приложение будет доступно по адресу: `http://localhost:3000`
+
+## Скрипты
+
+| Команда | Описание |
+|---------|----------|
+| `npm run dev` | Запуск в режиме разработки |
+| `npm run build` | Сборка для production |
+| `npm run preview` | Предпросмотр сборки |
+| `npm run lint` | Проверка TypeScript |
+
+## Использование
+
+При первом запуске заполните настройки проекта (ниша, имя эксперта, целевая аудитория). Затем используйте боковое меню для навигации между модулями.
