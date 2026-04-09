@@ -9,11 +9,9 @@ import {
   calculateShortWordCount, 
   validateGeneratedText 
 } from "../../prompts";
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+import { aiClient } from "./ai-client";
 
 export async function analyzeTrends(rssData: string, niche: string, expertName: string, targetAudience: string, toneOfVoice: string, clarification: string) {
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   const config = SYSTEM_PROMPTS.TREND_RADAR;
   
   const prompt = compilePrompt(config.userTemplate, {
@@ -26,7 +24,7 @@ export async function analyzeTrends(rssData: string, niche: string, expertName: 
   });
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await aiClient.generateContent({
       model: MODEL_NAME,
       contents: prompt,
       config: {
@@ -37,14 +35,7 @@ export async function analyzeTrends(rssData: string, niche: string, expertName: 
       },
     });
 
-    let jsonText = response.text || "{}";
-    if (jsonText.startsWith("```json")) {
-      jsonText = jsonText.replace(/^```json\n/, "").replace(/\n```$/, "");
-    } else if (jsonText.startsWith("```")) {
-      jsonText = jsonText.replace(/^```\n/, "").replace(/\n```$/, "");
-    }
-    
-    return JSON.parse(jsonText);
+    return aiClient.parseJSONResponse(response.text || "{}");
   } catch (error) {
     console.error("Error in analyzeTrends:", error);
     throw error;

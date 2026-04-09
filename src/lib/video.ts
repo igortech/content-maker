@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Slide } from "../store";
+import { safeFetch, handleError, Logger } from "./utils";
 
 export interface VideoGenerationProgress {
   step: string;
@@ -11,6 +12,9 @@ export async function uploadToStorage(data: string, mimeType: string, filename: 
     data,
     mimeType,
     filename
+  }, {
+    timeout: 30000, // 30 seconds timeout
+    validateStatus: (status) => status >= 200 && status < 300
   });
   return response.data.url;
 }
@@ -45,7 +49,7 @@ export async function generateVideo(
     
     onProgress({ step: "Подготавливаем аудио..." });
     // Force re-upload of audio to ensure it's served by our server with correct headers
-    const audioResponse = await fetch(audioUrl);
+    const audioResponse = await safeFetch(audioUrl);
     const audioBlob = await audioResponse.blob();
     const audioReader = new FileReader();
     const audioBase64 = await new Promise<string>((resolve) => {
@@ -64,7 +68,7 @@ export async function generateVideo(
       if (!slide.imageUrl) continue;
       
       onProgress({ step: `Загружаем слайд ${i + 1}/${slides.length}...` });
-      const response = await fetch(slide.imageUrl);
+      const response = await safeFetch(slide.imageUrl);
       const blob = await response.blob();
       const reader = new FileReader();
       const base64 = await new Promise<string>((resolve) => {
